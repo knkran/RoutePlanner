@@ -1,0 +1,42 @@
+﻿@model @RoutePlanner.Models.RoutePlannerMap
+@{
+    ViewBag.Title = "Home Page";
+}
+<div class="container">
+    <div class="jumbotron">
+        <h1>Route Planner</h1>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <form class="form-horizontal">
+                <fieldset>
+                    <!-- Form Name -->
+                    <legend>Add node(s) to <i>@Model.Names</i></legend>
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-xs-4 control-label" for="planFormStartNode">Start node</label>
+                        <div class="col-xs-4">
+                            <input id="planFormStartNode" name="planFormStartNode" type="text" placeholder="Node name" class="form-control input-md" required="">
+                            <span class="help-block">The node to start searching from</span>
+                        </div>
+                    </div>
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-xs-4 control-label" for="planFormStartNode">End node</label>
+                        <div class="col-xs-4">
+                            <input id="planFormStartNode" name="planFormStartNode" type="text" placeholder="Node name" class="form-control input-md" required="">
+                            <span class="help-block">The goal node to reach</span>
+                        </div>
+                    </div>
+                    <!-- Button (Double) -->
+                    <div class="form-group">
+                        <div class="col-xs-4">
+                            <button id="clearSearchButton" name="clearSearchButton" class="btn btn-danger">Clear</button>
+                            <button id="submitSearchButton" name="submitSearchButton" class="btn btn-success">Search</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>

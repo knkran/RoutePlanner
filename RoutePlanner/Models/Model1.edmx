@@ -1,0 +1,220 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Model1.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="Model1StoreContainer">
+    <EntitySet Name="NodeSet" EntityType="Model1.Store.NodeSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="EdgeSet" EntityType="Model1.Store.EdgeSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="MapSet" EntityType="Model1.Store.MapSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="NodeEdge" EntityType="Model1.Store.NodeEdge" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_NodeEdge_Node" Association="Model1.Store.FK_NodeEdge_Node">
+      <End Role="Node" EntitySet="NodeSet" />
+      <End Role="NodeEdge" EntitySet="NodeEdge" />
+    </AssociationSet>
+    <AssociationSet Name="FK_NodeEdge_Edge" Association="Model1.Store.FK_NodeEdge_Edge">
+      <End Role="Edge" EntitySet="EdgeSet" />
+      <End Role="NodeEdge" EntitySet="NodeEdge" />
+    </AssociationSet>
+    <AssociationSet Name="Contains" Association="Model1.Store.Contains">
+      <End Role="Map" EntitySet="MapSet" />
+      <End Role="Node" EntitySet="NodeSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="NodeSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="label" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="type" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="MapId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="EdgeSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="cost" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="type" Type="nvarchar(max)" Nullable="true" />
+  </EntityType>
+  <EntityType Name="MapSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="type" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="NodeEdge">
+    <Key>
+      <PropertyRef Name="Node_Id" />
+      <PropertyRef Name="NodeEdge_Node_Id" />
+    </Key>
+    <Property Name="Node_Id" Type="int" Nullable="false" />
+    <Property Name="NodeEdge_Node_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="Contains">
+    <End Role="Map" Type="Model1.Store.MapSet" Multiplicity="1" />
+    <End Role="Node" Type="Model1.Store.NodeSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Map">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Node">
+        <PropertyRef Name="MapId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_NodeEdge_Node">
+    <End Role="Node" Type="Model1.Store.NodeSet" Multiplicity="1" />
+    <End Role="NodeEdge" Type="Model1.Store.NodeEdge" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Node">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="NodeEdge">
+        <PropertyRef Name="Node_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_NodeEdge_Edge">
+    <End Role="NodeEdge" Type="Model1.Store.NodeEdge" Multiplicity="*" />
+    <End Role="Edge" Type="Model1.Store.EdgeSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Edge">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="NodeEdge">
+        <PropertyRef Name="NodeEdge_Node_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Model1" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="Model1Container" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="NodeSet" EntityType="Model1.Node" />
+          <EntitySet Name="EdgeSet" EntityType="Model1.Edge" />
+          <AssociationSet Name="NodeEdge" Association="Model1.NodeEdge">
+            <End Role="Node" EntitySet="NodeSet" />
+            <End Role="Edge" EntitySet="EdgeSet" />
+          </AssociationSet>
+          <EntitySet Name="MapSet" EntityType="Model1.Map" />
+          <AssociationSet Name="Contains" Association="Model1.Contains">
+            <End Role="Map" EntitySet="MapSet" />
+            <End Role="Node" EntitySet="NodeSet" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Node">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="label" Type="String" Nullable="true" />
+          <Property Name="type" Type="String" Nullable="true" />
+          <NavigationProperty Name="Map" Relationship="Model1.Contains" FromRole="Node" ToRole="Map" />
+          <Property Name="MapId" Type="Int32" Nullable="false" />
+          </EntityType>
+        <EntityType Name="Edge">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="cost" Type="String" Nullable="true" />
+          <Property Name="type" Type="String" Nullable="true" />
+          <NavigationProperty Name="Node" Relationship="Model1.NodeEdge" FromRole="Edge" ToRole="Node" />
+        </EntityType>
+        <Association Name="NodeEdge">
+          <End Type="Model1.Node" Role="Node" Multiplicity="*" />
+          <End Type="Model1.Edge" Role="Edge" Multiplicity="*" />
+        </Association>
+        <EntityType Name="Map">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" />
+          <Property Name="type" Type="String" Nullable="false" />
+          <NavigationProperty Name="Node" Relationship="Model1.Contains" FromRole="Map" ToRole="Node" />
+        </EntityType>
+        <Association Name="Contains">
+          <End Type="Model1.Map" Role="Map" Multiplicity="1" />
+          <End Type="Model1.Node" Role="Node" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Map">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Node">
+              <PropertyRef Name="MapId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Model1StoreContainer" CdmEntityContainer="Model1Container">
+    <EntitySetMapping Name="NodeSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.Node)">
+        <MappingFragment StoreEntitySet="NodeSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="label" ColumnName="label" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="MapId" ColumnName="MapId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EdgeSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.Edge)">
+        <MappingFragment StoreEntitySet="EdgeSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="cost" ColumnName="cost" />
+          <ScalarProperty Name="type" ColumnName="type" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MapSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.Map)">
+        <MappingFragment StoreEntitySet="MapSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="type" ColumnName="type" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="NodeEdge" TypeName="Model1.NodeEdge" StoreEntitySet="NodeEdge">
+      <EndProperty Name="Node">
+        <ScalarProperty Name="Id" ColumnName="Node_Id" />
+      </EndProperty>
+      <EndProperty Name="Edge">
+        <ScalarProperty Name="Id" ColumnName="NodeEdge_Node_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

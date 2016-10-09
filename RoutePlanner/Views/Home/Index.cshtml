@@ -1,0 +1,33 @@
+﻿@model @RoutePlanner.Models.RoutePlannerMap
+@{
+    ViewBag.Title = "Home Page";
+}
+<div class="container">
+    <div class="jumbotron">
+        <h1>Route Planner</h1>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+
+            @using (@Html.BeginForm("CreateMap", "Home")) { 
+                <fieldset>
+                     <!-- Form Name -->
+                    <legend>Create map</legend>
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-xs-4 control-label" for="createMapName">Map name</label>
+                        <div class="col-xs-4">
+                            <input id="createMapName" name="createMapName" type="text" placeholder="Map name" class="form-control input-md" required="">
+                            <span class="help-block">The name of the map</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-4">
+                            <button id="createMapSubmit" name="createMap" class="btn btn-success pull-right">Create</button>
+                        </div>
+                    </div>
+                </fieldset>}
+            <!--</form>-->
+        </div>
+    </div>
+</div>
